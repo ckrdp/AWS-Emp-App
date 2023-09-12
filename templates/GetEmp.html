@@ -1,29 +1,87 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Get Employee Information</title>
+    <title>Get Employee Information</title>
+    <style>
+        body {
+            background-image: url('../assests/images/my-avatar.jpg'); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'poppins', sans-serif; /* Change the font-family here */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.821);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 250px 80px; /* Center horizontally */
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgb(0, 0, 0);
+        }
+
+        form {
+            text-align: left; /* Align the form content to the left */
+        }
+
+        input[type="number"] {
+            width: 50%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Verdana', sans-serif; /* Change the font-family here */
+        }
+
+        button.primary {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Helvetica', sans-serif; /* Change the font-family here */
+        }
+
+        button.primary:hover {
+            background-color: #555;
+        }
+
+        button.secondary {
+            background-color: #888;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Helvetica', sans-serif; /* Change the font-family here */
+        }
+
+        button.secondary:hover {
+            background-color: #999;
+        }
+    </style>
 </head>
-<center>
-	<font color="black" size="5" style="font-family: avenir">
-
-		<h1 style="color: DodgerBlue">Employee Information</h1>
-
-		<body bgcolor="lightgrey">
-
-			<form action="/fetchdata" autocomplete="on" method="POST">
-
-				<h2 style="color: grey">Enter Employee ID</h2>
-
-		  		Employee ID:<br> <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
-
-
-		  		<button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">FETCH INFO</button><br><br>
-
-		  		<button type="submit" formaction="http://3.134.115.108:80/" style="background: white	; height: 45px; width: 200px; color: black; size: 5; font:oblique;" method="GET">GO TO UPDATE DATABASE PAGE</button>
-
-			</form>
-
-		</body>
-	</font>
-</center>
+<body>
+    <div class="container">
+        <h1>Employee Information</h1>
+        <form action="/fetchdata" autocomplete="on" method="POST">
+            <label for="emp_id">Enter Employee ID:</label>
+            <input type="number" id="emp_id" name="emp_id" autofocus>
+            <button class="primary" type="submit">FETCH INFO</button>
+            <button class="secondary" formaction="http://3.134.115.108:80/" method="GET">GO TO UPDATE DATABASE PAGE</button>
+        </form>
+    </div>
+</body>
 </html>
