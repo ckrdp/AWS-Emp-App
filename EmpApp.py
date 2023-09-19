@@ -6,20 +6,18 @@ from config import *
 
 app = Flask(__name__)
 
-bucket = custombucket
-region = customregion
+bucket_new = bucket
+region_new = region
 
 db_conn = connections.Connection(
-    host=customhost,
+    host=host,
     port=3306,
-    user=customuser,
-    password=custompass,
-    db=customdb
-
+    user=user,
+    pwd=password,
+    dbase=db
 )
 output = {}
 table = 'empdet'
-
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -33,37 +31,30 @@ def AddEmp():
     pri_skill = request.form['pri_skill']
     location = request.form['location']
     emp_image_file = request.files['emp_image_file']
-
+    
     insert_sql = "INSERT INTO empdet VALUES (%s, %s, %s, %s, %s)"
     cursor = db_conn.cursor()
-
     if emp_image_file.filename == "":
         return "Please select a file"
     try:
-        cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location))
+        cursor.execute(insert_sql, (emp_id, first_name, last_name, primary_skill, location))
         db_conn.commit()
         emp_name = "" + first_name + " " + last_name
         # Uplaod image file in S3 #
         emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
         s3 = boto3.resource('s3')
-
         try:
             print("Data inserted in MySQL RDS..")
             print("Image is Uploaded in S3")
-            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+            s3.Bucket(bucket_new).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
+            bucket_location = boto3.client('s3').get_bucket_location(Bucket=bucket_new)
             s3_location = (bucket_location['LocationConstraint'])
 
             if s3_location is None:
                 s3_location = ''
             else:
                 s3_location = '-' + s3_location
-
-            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                s3_location,
-                custombucket,
-                emp_image_file_name_in_s3)
-
+            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(s3_location,bucket_new,emp_image_file_name_in_s3)
         except Exception as e:
             return str(e)
 
