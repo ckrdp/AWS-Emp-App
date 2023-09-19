@@ -25,12 +25,6 @@ table = 'empdet'
 def home():
     return render_template('AddEmp.html')
 
-
-@app.route("/about", methods=['POST'])
-def about():
-    return render_template('www.google.com')
-
-
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
     emp_id = request.form['emp_id']
@@ -54,7 +48,8 @@ def AddEmp():
         s3 = boto3.resource('s3')
 
         try:
-            print("Data inserted in MySQL RDS... uploading image to S3...")
+            print("Data inserted in MySQL RDS..")
+            print("Image is Uploaded in S3")
             s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
